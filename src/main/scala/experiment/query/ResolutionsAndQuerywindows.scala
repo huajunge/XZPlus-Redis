@@ -1,17 +1,16 @@
-package random
+package experiment.query
 
 import java.util
 
-import com.urbancomputing.geomesa.model.basic.box.MinimumBoundingBox
 import curve.{XZ2SFC, XZPlusSFC}
-import org.locationtech.geomesa.utils.interop.WKTUtils
 import org.locationtech.sfcurve.IndexRange
+import random.MinimumBoundingBox
 import redis.clients.jedis.{Jedis, Pipeline}
 
 import scala.collection.JavaConverters._
 import scala.collection.Seq
 
-object QueryWindowWithPrecision {
+object ResolutionsAndQuerywindows {
 
   def main(args: Array[String]): Unit = {
     val table = args(0)
@@ -85,9 +84,9 @@ object QueryWindowWithPrecision {
           querySize += value.size()
           for (v <- value.asScala) {
             val polygon = v.split("_")(0)
-            WKTUtils.read(polygon)
+            curve.WKTUtils.read(polygon)
             //size += 1
-            if (mbr1.intersects(WKTUtils.read(polygon).getEnvelopeInternal)) {
+            if (mbr1.intersects(curve.WKTUtils.read(polygon).getEnvelopeInternal)) {
               size += 1
             }
           }

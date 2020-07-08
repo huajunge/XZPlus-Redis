@@ -1,7 +1,5 @@
 package random;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 
@@ -29,8 +27,7 @@ public class MinimumBoundingBox extends Envelope {
      * @param lowerLeft
      * @param upperRight
      */
-    @JsonCreator
-    public MinimumBoundingBox(@JsonProperty("lowerLeft") GeodeticPoint lowerLeft, @JsonProperty("upperRight") GeodeticPoint upperRight) {
+    public MinimumBoundingBox(GeodeticPoint lowerLeft, GeodeticPoint upperRight) {
         super(lowerLeft.getLng(), upperRight.getLng(), lowerLeft.getLat(), upperRight.getLat());
     }
 
@@ -89,7 +86,7 @@ public class MinimumBoundingBox extends Envelope {
     }
 
     /**
-     * @return GeodeticPoint 中心点位置
+     * @return GeodeticPoint
      */
     public GeodeticPoint getCenterPoint() {
         if (null == this.centerPoint) {
@@ -112,11 +109,6 @@ public class MinimumBoundingBox extends Envelope {
         return super.intersects(mbr);
     }
 
-    /**
-     *
-     * @param mbr 一个MinimumBoundingBox
-     * @return MinimumBoundingBox 合并后的MinimumBoundingBox
-     */
     public MinimumBoundingBox intersects(MinimumBoundingBox mbr) {
         if (!isIntersects(mbr)) {
             return null;
@@ -127,20 +119,10 @@ public class MinimumBoundingBox extends Envelope {
         return new MinimumBoundingBox(envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY());
     }
 
-    /**
-     * 将传入的mbr与当前MinimumBoundingBox合并，并返回合并后的MinimumBoundingBox，但并不会改变当前MinimumBoundingBox
-     *
-     * @param mbr 一个MinimumBoundingBox
-     * @return MinimumBoundingBox 合并后的MinimumBoundingBox
-     */
     public MinimumBoundingBox union(MinimumBoundingBox mbr) {
         if (null == mbr) {
             return this;
         }
-        //TODO union方法 和 expandToInclude方法 的功能是一样的
-        //TODO 区别：expandToInclude是在原有的BoundingBox上expand,会改变当前的BoundingBox
-        //expandToInclude(mbr);
-
         double minLat = Math.min(getMinLat(), mbr.getMinLat());
         double maxLat = Math.max(getMaxLat(), mbr.getMaxLat());
         double minLng = Math.min(getMinLng(), mbr.getMinLng());
@@ -153,12 +135,6 @@ public class MinimumBoundingBox extends Envelope {
         return this.toPolygon(SRID).toString();
     }
 
-    /**
-     * 转为polygon对象
-     *
-     * @param srid
-     * @return
-     */
     public Polygon toPolygon(int srid) {
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), srid);
         CoordinateSequence cs = new CoordinateArraySequence(new Coordinate[]{

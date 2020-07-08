@@ -1,8 +1,9 @@
-package random;
+package experiment.store;
 
 import curve.HBPlusSFC;
 import curve.XZ2SFC;
 import curve.XZPlusSFC;
+import random.MinimumBoundingBox;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 

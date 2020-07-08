@@ -1,15 +1,12 @@
-package random;
+package experiment.store;
 
-import com.urbancomputing.geomesa.model.basic.box.MinimumBoundingBox;
-import curve.HBPlusSFC;
-import curve.NativeSFC;
+import curve.*;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.locationtech.geomesa.curve.*;
-import org.locationtech.geomesa.utils.interop.WKTUtils;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
+import random.MinimumBoundingBox;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
@@ -21,7 +18,7 @@ import java.util.ArrayList;
  * @date : Created in 2020-05-27 19:55
  * @modified by :
  **/
-public class UsOthers {
+public class USData {
     public static void main(String[] args) {
         String path = args[0];
         String tableHB = args[1];
@@ -33,12 +30,12 @@ public class UsOthers {
         short ep = Short.parseShort(args[5]);
         String host = args[6];
         boolean isLocal = Boolean.parseBoolean(args[7]);
-        SparkConf sparkConf = new SparkConf().setAppName(TdriveToRedisWithPrecision.class.getName());
+        SparkConf sparkConf = new SparkConf().setAppName(USData.class.getName());
         if (isLocal) {
             sparkConf.setMaster("local[*]");
         }
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
-        JavaRDD<String> tRDD = sparkContext.textFile("D:\\工作文档\\data\\us_ploys\\us_ploys.csv", 500);
+        JavaRDD<String> tRDD = sparkContext.textFile(path, 500);
         //System.out.println("--------------");
         //System.out.println(tRDD.count());
         MinimumBoundingBox minimumBoundingBox = new MinimumBoundingBox(-77.5937, 40.871, -73.618, 43.2243);

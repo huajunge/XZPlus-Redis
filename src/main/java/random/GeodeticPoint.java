@@ -1,8 +1,5 @@
 package random;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 
@@ -32,18 +29,6 @@ public class GeodeticPoint extends Point {
      **/
     public GeodeticPoint(Coordinate coordinate) {
         super(new CoordinateArraySequence(new Coordinate[]{coordinate}), new GeometryFactory(new PrecisionModel(), SRID));
-    }
-
-    /**
-     * @param lng 经度
-     * @param lat 纬度
-     * @param alt 海拔高度
-     */
-    @JsonCreator
-    public GeodeticPoint(@JsonProperty("lng") double lng,
-                         @JsonProperty("lat") double lat,
-                         @JsonProperty("alt") @JsonInclude(JsonInclude.Include.NON_NULL) double alt) {
-        super(new CoordinateArraySequence(new Coordinate[]{new Coordinate(lng, lat, alt)}), new GeometryFactory(new PrecisionModel(), SRID));
     }
 
     /**
