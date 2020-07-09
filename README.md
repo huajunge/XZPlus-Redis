@@ -14,8 +14,6 @@ Meanwhile, we designed an efficient query processing algorithm, which directly s
 XZRClient(host: String, ip: Int, table: String, resolution: Int = 16)
 </code>
 
-where "127.0.0.1" is your host, 6379 is port of Redis, "xzr_table2" is the table that storing data, 16 is the maximum resolution.
-
 2.Insert
 
 <code> 
@@ -52,6 +50,7 @@ public class InsertExample {
     }
 }
 ```
+where "127.0.0.1" is your host, 6379 is port of Redis, "xzr_table2" is the table that storing data, 16 is the maximum resolution.
 
 Range query
 
